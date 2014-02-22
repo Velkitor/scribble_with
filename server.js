@@ -15,7 +15,7 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer({port: 808
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3001);
+app.set('port', 80);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.favicon());
