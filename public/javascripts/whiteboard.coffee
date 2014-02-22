@@ -76,20 +76,29 @@ drawOff = (e)->
   setClickOff(e)
 
 draw = (e, drawAnyway) ->
-  console.log 
   e.preventDefault()
   if e.which
     pos = getRelativePosition(e)
-    canvasContext.moveTo(lastLocation.x, lastLocation.y)
-    canvasContext.lineTo(pos.x, pos.y)
-    canvasContext.moveTo(pos.x, pos.y)
-    canvasContext.strokeStyle = activeColor
-    canvasContext.lineWidth = lineWidth
-    canvasContext.stroke()
+    drawLine(lastLocation, pos, lineWidth, activeColor)
     line = {start: lastLocation, end: pos, color: activeColor, lineWidth: lineWidth}
     window.WB.webSocket.send(JSON.stringify(line))
     lastLocation = pos
 
+drawLine = (from, to, width, color) ->
+  canvasContext.beginPath()
+  canvasContext.moveTo(from.x, from.y)
+  canvasContext.lineTo(to.x, to.y)
+  canvasContext.moveTo(to.x, to.y)
+  canvasContext.strokeStyle = color
+  canvasContext.lineWidth = width
+  canvasContext.stroke()
+  canvasContext.lineWidth = 1
+  rad = Math.floor(width/2.0)
+  if rad < 0.5
+    rad = 0.5
+  canvasContext.arc(to.x, to.y, rad, 0, 2 * Math.PI, false)
+  canvasContext.fillStyle = color
+  canvasContext.fill()
 
 getRelativePosition = (e) ->
   pos =
@@ -98,10 +107,5 @@ getRelativePosition = (e) ->
 
 handleWebScocketMsg = (e) ->
   line = JSON.parse(e.data)
-  if line.color && line.color != activeColor
-    canvasContext.beginPath()
-  canvasContext.moveTo(line.start.x, line.start.y)
-  canvasContext.lineTo(line.end.x, line.end.y)
-  canvasContext.strokeStyle = line.color
-  canvasContext.lineWidth = line.lineWidth
-  canvasContext.stroke()
+  drawLine(line.start, line.end, line.lineWidth, line.color)
+
