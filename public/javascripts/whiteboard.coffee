@@ -7,10 +7,12 @@ lastLocation =
   x: 0
   y: 0
 activeColor = "#000000"
+lineWidth = 1
 window.WB = {}
 window.WB.webSocket = null 
 $(document).ready ->
   buildColorSelector()
+  buildLineSizeSelector()
 
   $whiteboard = $('#whiteboard')
   canvas = $whiteboard[0]
@@ -19,22 +21,19 @@ $(document).ready ->
   canvasContext.beginPath()
 
   # Mouse events
-  $whiteboard.on('mousedown', setClickOn)
-  $whiteboard.on('mouseenter', setClickOff)
-  $whiteboard.on('mouseleave', drawOff)
-  $whiteboard.on('mouseup', setClickOff)
+  $whiteboard.on('mouseenter', moveToEventPoint)
+  $whiteboard.on('mouseleave', draw)
+  $whiteboard.on('mousedown', moveToEventPoint)
   $whiteboard.on('mousemove', draw)
-
-  # Touch Events
-  $whiteboard.on('touch', setClickOn)
-  $whiteboard.on('touchstart', setClickOn)
-  $whiteboard.on('touchend', setClickOff)
-  $whiteboard.on('touchcancel', setClickOff)
-  $whiteboard.on('touchleave', setClickOff)
-  $whiteboard.on('touchmove', draw)
 
   window.WB.webSocket = new WebSocket("ws://#{window.location.hostname}:8080/#{$whiteboard.data('id')}")
   window.WB.webSocket.onmessage = handleWebScocketMsg
+
+moveToEventPoint = (e) ->
+  pos = getRelativePosition(e)
+  lastLocation = pos
+  console.log pos
+  canvasContext.moveTo(pos.x, pos.y)
 
 buildColorSelector = ->
   $('ul#colorSelect').on('click', 'li', setActiveColor)
@@ -49,6 +48,20 @@ setActiveColor = (e) ->
   activeColor = $(this).data('color')
   canvasContext.beginPath()
 
+buildLineSizeSelector = ->
+  $('ul#lineWidth').on('click', 'li', setActiveLineSize)
+  for li in $('ul#lineWidth li')
+    $li = $(li)
+    $div = $('<div></div>').css('height', $li.data('line-height'))
+    $li.html($div)
+
+setActiveLineSize = (e) ->
+  $('ul#lineWidth li').removeClass('active')
+  $(this).addClass('active')
+  lineWidth = parseInt($(this).data('line-height'))
+  canvasContext.beginPath()
+
+
 setClickOn = (e) ->
   clicked = true
   pos = getRelativePosition(e)
@@ -62,18 +75,21 @@ drawOff = (e)->
   draw(e)
   setClickOff(e)
 
-draw = (e) ->
+draw = (e, drawAnyway) ->
+  console.log 
   e.preventDefault()
-  if clicked
+  if e.which
     pos = getRelativePosition(e)
     canvasContext.moveTo(lastLocation.x, lastLocation.y)
     canvasContext.lineTo(pos.x, pos.y)
     canvasContext.moveTo(pos.x, pos.y)
     canvasContext.strokeStyle = activeColor
+    canvasContext.lineWidth = lineWidth
     canvasContext.stroke()
-    line = {start: lastLocation, end: pos, color: activeColor}
+    line = {start: lastLocation, end: pos, color: activeColor, lineWidth: lineWidth}
     window.WB.webSocket.send(JSON.stringify(line))
     lastLocation = pos
+
 
 getRelativePosition = (e) ->
   pos =
@@ -81,11 +97,11 @@ getRelativePosition = (e) ->
     y: e.pageY - canvasPosition.top 
 
 handleWebScocketMsg = (e) ->
-  console.log e.data
   line = JSON.parse(e.data)
   if line.color && line.color != activeColor
     canvasContext.beginPath()
   canvasContext.moveTo(line.start.x, line.start.y)
   canvasContext.lineTo(line.end.x, line.end.y)
   canvasContext.strokeStyle = line.color
+  canvasContext.lineWidth = line.lineWidth
   canvasContext.stroke()

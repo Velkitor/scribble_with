@@ -54,10 +54,8 @@ wss.broadcastTo = function(data, url) {
 wss.on('connection', function(ws) {
   url = ws.upgradeReq.url;
   ws.on('message', function(message) {
-    console.log('received: %s', message);
     wss.broadcastTo(message,url);
   });
-  ws.send('something');
 });
 
 http.createServer(app).listen(app.get('port'), function(){

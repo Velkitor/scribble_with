@@ -2,11 +2,20 @@ body
   padding: 50px
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
   background: #757575
+
+.unselectable 
+  -moz-user-select: none
+  -khtml-user-select: none
+  -webkit-user-select: none
+  user-select: none
+
 a
   color: #00B7FF
 canvas#whiteboard
+  float: left
   background: #FFF
   cursor: pointer
+
 ul#colorSelect
   padding: 0
   margin: 0
@@ -26,3 +35,15 @@ ul#colorSelect
       outline: 1px solid #FF0
       width: 12px
       height: 12px
+
+ul#lineWidth
+  float: left
+  list-style: none
+  li
+    width: 24px
+    padding: 5px 0
+    div
+      background: #000
+    &.active
+      div
+        background: #FF0

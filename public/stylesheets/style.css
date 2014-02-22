@@ -3,10 +3,17 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background: #757575;
 }
+.unselectable {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 a {
   color: #00b7ff;
 }
 canvas#whiteboard {
+  float: left;
   background: #fff;
   cursor: pointer;
 }
@@ -31,4 +38,18 @@ ul#colorSelect li.active {
   outline: 1px solid #ff0;
   width: 12px;
   height: 12px;
+}
+ul#lineWidth {
+  float: left;
+  list-style: none;
+}
+ul#lineWidth li {
+  width: 24px;
+  padding: 5px 0;
+}
+ul#lineWidth li div {
+  background: #000;
+}
+ul#lineWidth li.active div {
+  background: #ff0;
 }
