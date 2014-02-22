@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 Whiteboard
+
+  ul#colorSelect
+    -for(var i=0; i < colorCount;i++){
+      li(data-color=colors[i])
+    -}
+  //- canvas#whiteboard(width=1280, height=720)
+  canvas#whiteboard(width=640, height=480, data-id=id)
