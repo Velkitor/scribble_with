@@ -32,8 +32,9 @@ $(document).ready ->
 moveToEventPoint = (e) ->
   pos = getRelativePosition(e)
   lastLocation = pos
-  console.log pos
   canvasContext.moveTo(pos.x, pos.y)
+  if e.type == 'mousedown'
+    drawLine(pos, pos, lineWidth, activeColor)
 
 buildColorSelector = ->
   $('ul#colorSelect').on('click', 'li', setActiveColor)
