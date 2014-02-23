@@ -1,15 +1,18 @@
 extends layout
 
 block content
-  h1 Whiteboard
-
-  ul#colorSelect.unselectable 
-    -for(var i=0; i < colorCount;i++){
-      li(data-color=colors[i])
-    -}
-  //- canvas#whiteboard(width=1280, height=720)
-  canvas#whiteboard.unselectable(width=640, height=480, data-id=id)
-  ul#lineWidth.unselectable 
-    -for(var i=1;i<15; i += 2){
-      li(height=i, data-line-height=i)
-    -}
+  div#canvas(oncontextmenu='return false;')
+    h1 
+      | Whiteboard: 
+      =id
+    ul#colorSelect.unselectable 
+      -for(var i=0; i < colorCount;i++){
+        li(data-color=colors[i])
+      -}
+    ul#lineWidth.unselectable 
+      -for(var i=1;i<15; i += 2){
+        li(height=i, data-line-height=i)
+      -}
+    canvas#whiteboard(width=800, height=600, data-id=id)
+    //- canvas#whiteboard.unselectable(width=640, height=480, data-id=id)
+    

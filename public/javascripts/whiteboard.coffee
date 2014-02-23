@@ -51,6 +51,7 @@ setActiveColor = (e) ->
 
 buildLineSizeSelector = ->
   $('ul#lineWidth').on('click', 'li', setActiveLineSize)
+  $("ul#lineWidth li[data-line-height='#{lineWidth}']").addClass('active')
   for li in $('ul#lineWidth li')
     $li = $(li)
     $div = $('<div></div>').css('height', $li.data('line-height'))

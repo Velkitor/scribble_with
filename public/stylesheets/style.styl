@@ -1,7 +1,7 @@
 body
   padding: 50px
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
-  background: #757575
+  background: #EEE
 
 .unselectable 
   -moz-user-select: none
@@ -11,39 +11,47 @@ body
 
 a
   color: #00B7FF
-canvas#whiteboard
-  float: left
-  background: #FFF
-  cursor: pointer
+div#canvas
+  width: 836px
+  margin: auto
+  canvas#whiteboard
+    float: left
+    background: #FFF
+    cursor: pointer
 
-ul#colorSelect
-  padding: 0
-  margin: 0
-  border: 3px solid #000
-  height: 22px
-  box-sizing: border-box
-  list-style: none
-  li
-    margin: 0
+  ul#colorSelect
     padding: 0
-    display: inline-block
-    width: 16px
-    height: 16px
-    &.active
-      margin: 1px
-      border: 1px solid #000
-      outline: 1px solid #FF0
-      width: 12px
-      height: 12px
+    margin: 0
+    border: 3px solid #000
+    height: 22px
+    box-sizing: border-box
+    list-style: none
+    width: 836px
+    li
+      margin: 0
+      padding: 0
+      display: inline-block
+      width: 16px
+      height: 16px
+      &.active
+        margin: 1px
+        border: 1px solid #000
+        outline: 1px solid #FF0
+        width: 12px
+        height: 12px
 
-ul#lineWidth
-  float: left
-  list-style: none
-  li
-    width: 24px
-    padding: 5px 0
-    div
-      background: #000
-    &.active
+  ul#lineWidth
+    float: left
+    list-style: none
+    padding: 3px
+    margin: 0
+    border: 3px solid #000
+    border-top: 0
+    li
+      width: 24px
+      padding: 5px 0
       div
-        background: #FF0
+        background: #000
+      &.active
+        div
+          background: #FF0

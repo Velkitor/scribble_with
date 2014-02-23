@@ -1,7 +1,7 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background: #757575;
+  background: #eee;
 }
 .unselectable {
   -moz-user-select: none;
@@ -12,44 +12,53 @@ body {
 a {
   color: #00b7ff;
 }
-canvas#whiteboard {
+div#canvas {
+  width: 836px;
+  margin: auto;
+}
+div#canvas canvas#whiteboard {
   float: left;
   background: #fff;
   cursor: pointer;
 }
-ul#colorSelect {
+div#canvas ul#colorSelect {
   padding: 0;
   margin: 0;
   border: 3px solid #000;
   height: 22px;
   box-sizing: border-box;
   list-style: none;
+  width: 836px;
 }
-ul#colorSelect li {
+div#canvas ul#colorSelect li {
   margin: 0;
   padding: 0;
   display: inline-block;
   width: 16px;
   height: 16px;
 }
-ul#colorSelect li.active {
+div#canvas ul#colorSelect li.active {
   margin: 1px;
   border: 1px solid #000;
   outline: 1px solid #ff0;
   width: 12px;
   height: 12px;
 }
-ul#lineWidth {
+div#canvas ul#lineWidth {
   float: left;
   list-style: none;
+  padding: 3px;
+  margin: 0;
+  border: 3px solid #000;
+  border-top: 0;
 }
-ul#lineWidth li {
+div#canvas ul#lineWidth li {
   width: 24px;
   padding: 5px 0;
 }
-ul#lineWidth li div {
+div#canvas ul#lineWidth li div {
   background: #000;
 }
-ul#lineWidth li.active div {
+div#canvas ul#lineWidth li.active div {
   background: #ff0;
 }
