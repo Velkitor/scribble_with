@@ -36,6 +36,7 @@ div#canvas ul#colorSelect li {
   display: inline-block;
   width: 16px;
   height: 16px;
+  border-right: 2px solid #000;
 }
 div#canvas ul#colorSelect li.active {
   margin: 1px;
