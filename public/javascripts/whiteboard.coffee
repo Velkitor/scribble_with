@@ -79,7 +79,8 @@ drawOff = (e)->
 
 draw = (e, drawAnyway) ->
   e.preventDefault()
-  if e.which
+  console.log buttonClicked(e)
+  if buttonClicked(e)
     pos = getRelativePosition(e)
     drawLine(lastLocation, pos, lineWidth, activeColor)
     line = {start: lastLocation, end: pos, color: activeColor, lineWidth: lineWidth}
@@ -111,3 +112,9 @@ handleWebScocketMsg = (e) ->
   line = JSON.parse(e.data)
   drawLine(line.start, line.end, line.lineWidth, line.color)
 
+buttonClicked = (e) ->
+  # Firefox has to be different
+  if window.mozInnerScreenX
+    e.buttons
+  else
+    e.which
